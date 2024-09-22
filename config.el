@@ -88,10 +88,7 @@
   ;; code here will run after the package is loaded
   (setq hl-todo-highlight-punctuation ":"))
 
-(use-package! python-black
-  :demand t
-  :after python)
-(add-hook! 'python-mode-hook #'python-black-on-save-mode)
+(use-package! python-black)
 
 (use-package! flycheck)
 
@@ -102,3 +99,60 @@
   :config
   (setq lsp-signature-auto-activate t
         lsp-signature-render-documentation t))  ;; Show parameter info and documentation
+
+;; (use-package codeium
+;;     :init
+;;     ;; use globally
+;;     (add-to-list 'completion-at-point-functions #'codeium-completion-at-point)
+
+;;     :config
+;;     (setq use-dialog-box nil) ;; do not use popup boxes
+
+;;     ;; if you don't want to use customize to save the api-key
+;;     ;; (setq codeium/metadata/api_key "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx")
+
+;;     ;; get codeium status in the modeline
+;;     (setq codeium-mode-line-enable
+;;         (lambda (api) (not (memq api '(CancelRequest Heartbeat AcceptCompletion)))))
+;;     (add-to-list 'mode-line-format '(:eval (car-safe codeium-mode-line)) t)
+;;     ;; alternatively for a more extensive mode-line
+;;     ;; (add-to-list 'mode-line-format '(-50 "" codeium-mode-line) t)
+
+;;     ;; use M-x codeium-diagnose to see apis/fields that would be sent to the local language server
+;;     (setq codeium-api-enabled
+;;         (lambda (api)
+;;             (memq api '(GetCompletions Heartbeat CancelRequest GetAuthToken RegisterUser auth-redirect AcceptCompletion))))
+
+;;     (defun my-codeium/document/text ()
+;;         (buffer-substring-no-properties (max (- (point) 3000) (point-min)) (min (+ (point) 1000) (point-max))))
+
+;;     ;; warning: this is measured by UTF-8 encoded bytes
+;;     (defun my-codeium/document/cursor_offset ()
+;;         (codeium-utf8-byte-length
+;;             (buffer-substring-no-properties (max (- (point) 3000) (point-min)) (point))))
+;;     (setq codeium/document/text 'my-codeium/document/text)
+;;     (setq codeium/document/cursor_offset 'my-codeium/document/cursor_offset))
+
+(use-package! corfu
+  :custom
+  (corfu-auto t)                 ;; Enable auto completion
+  (corfu-cycle t)                ;; Allows cycling through candidates
+  (corfu-quit-no-match 'separator) ;; Don't quit when no match is found
+  :config
+  (setq-default
+   company-frontends '(company-preview-frontend))
+  :bind
+  (:map corfu-map
+        ("TAB" . corfu-next)
+        ([tab] . corfu-next)
+        ("S-TAB" . corfu-previous)
+        ([backtab] . corfu-previous))
+  :init
+  (global-corfu-mode))
+
+(use-package! treemacs
+  :defer t
+  :config
+  ;; Enable treemacs' file preview
+  (setq treemacs-follow-after-init t)
+  (treemacs-follow-mode t))

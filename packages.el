@@ -56,3 +56,5 @@
 (package! python-black)
 
 (package! realgud)
+
+;; (package! codeium :recipe (:host github :repo "Exafunction/codeium.el"))
