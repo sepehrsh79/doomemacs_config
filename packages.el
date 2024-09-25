@@ -49,6 +49,8 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;; (unpin! t)
 
+;; (package! lsp-pyright)
+
 (package! undo-fu
   :recipe (:host github :repo "emacsmirror/undo-fu")
   :pin "913cbb4ff3659d8537c764e56953dbb1b85e73c9")
